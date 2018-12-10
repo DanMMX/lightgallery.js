@@ -171,27 +171,38 @@ Plugin.prototype.init = function() {
 
     // if dynamic option is enabled execute immediately
     var _hash = window.location.hash;
+
     if (_hash.indexOf('lg=' + this.s.galleryId) > 0) {
 
-        _this.index = parseInt(_hash.split('&slide=')[1], 10);
+      utils.addClass(document.body, 'lg-from-hash');
 
-        utils.addClass(document.body, 'lg-from-hash');
-        if (!utils.hasClass(document.body, 'lg-on')) {
-            utils.addClass(document.body, 'lg-on');
-            setTimeout(function() {
-                _this.build(_this.index);
-            });
-        }
+      if (_hash.indexOf('artworkId') > -1) {
+        console.log(_hash.split('&artworkId=')[1], parseInt(_hash.split('&artworkId=')[1]));
+        const artworkId = parseInt(_hash.split('&artworkId=')[1])
+
+        _this.index = _this.items.findIndex(function(value, idx) {
+          return value.artworkId == artworkId
+        })
+
+      } else {
+        _this.index = parseInt(_hash.split('&slide=')[1], 10);
+      }
+
+      if (!utils.hasClass(document.body, 'lg-on')) {
+          utils.addClass(document.body, 'lg-on');
+          setTimeout(function() {
+              _this.build(_this.index);
+          });
+      }
     }
 
     if (_this.s.dynamic) {
 
         utils.trigger(this.el, 'onBeforeOpen');
 
-        _this.index = _this.s.index || 0;
-
         // prevent accidental double execution
         if (!utils.hasClass(document.body, 'lg-on')) {
+            _this.index = _this.s.index || 0;
             utils.addClass(document.body, 'lg-on');
             setTimeout(function() {
                 _this.build(_this.index);
