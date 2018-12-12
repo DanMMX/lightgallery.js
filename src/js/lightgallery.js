@@ -177,11 +177,10 @@ Plugin.prototype.init = function() {
       utils.addClass(document.body, 'lg-from-hash');
 
       if (_hash.indexOf('artworkId') > -1) {
-        console.log(_hash.split('&artworkId=')[1], parseInt(_hash.split('&artworkId=')[1]));
         const artworkId = parseInt(_hash.split('&artworkId=')[1])
 
-        _this.index = _this.items.findIndex(function(value, idx) {
-          return value.artworkId == artworkId
+        _this.index = _this.items.findIndex(function(item, idx) {
+          return item.id == artworkId
         })
 
       } else {
@@ -609,7 +608,6 @@ Plugin.prototype.loadContent = function(index, rec, delay) {
     };
 
     if (_this.s.dynamic) {
-
         if (_this.s.dynamicEl[index].poster) {
             _hasPoster = true;
             _poster = _this.s.dynamicEl[index].poster;
