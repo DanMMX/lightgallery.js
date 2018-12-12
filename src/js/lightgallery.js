@@ -244,7 +244,7 @@ Plugin.prototype.build = function(index) {
     _this.structure();
 
     for (var key in window.lgModules) {
-        _this.modules[key] = new window.lgModules[key](_this.el);
+        _this.modules[key] = new window.lgModules[key](_this.el, _this.items);
     }
 
     // initiate slide function

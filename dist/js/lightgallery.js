@@ -383,9 +383,18 @@
 
         if (_hash.indexOf('lg=' + this.s.galleryId) > 0) {
 
-            _this.index = parseInt(_hash.split('&slide=')[1], 10);
-
             _lgUtils2.default.addClass(document.body, 'lg-from-hash');
+
+            if (_hash.indexOf('artworkId') > -1) {
+                var artworkId = parseInt(_hash.split('&artworkId=')[1]);
+
+                _this.index = _this.items.findIndex(function (item, idx) {
+                    return item.id == artworkId;
+                });
+            } else {
+                _this.index = parseInt(_hash.split('&slide=')[1], 10);
+            }
+
             if (!_lgUtils2.default.hasClass(document.body, 'lg-on')) {
                 _lgUtils2.default.addClass(document.body, 'lg-on');
                 setTimeout(function () {
@@ -439,7 +448,7 @@
         _this.structure();
 
         for (var key in window.lgModules) {
-            _this.modules[key] = new window.lgModules[key](_this.el);
+            _this.modules[key] = new window.lgModules[key](_this.el, _this.items);
         }
 
         // initiate slide function
@@ -787,7 +796,6 @@
         };
 
         if (_this.s.dynamic) {
-
             if (_this.s.dynamicEl[index].poster) {
                 _hasPoster = true;
                 _poster = _this.s.dynamicEl[index].poster;
